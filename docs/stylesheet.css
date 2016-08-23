@@ -14,17 +14,25 @@ div.navbar {
 h1{
   text-align: center;
 }
+h2 {
+  margin: 2em 0 1em;
+}
 h2.indextitle {
-	padding: 0.4em;
+  margin: 1em 0;
 }
 h3.function,h3.typedecl {
   font-family: Courier, monospace; font-weight: bold;
+  font-size: 1em;
+  margin: 1.5em 0 1em;
 }
 div.spec {
   background-color:#eeeeff;
-  padding: 0px 10px;
-  margin: 0  0 0 40px;
+  margin: 0 0 0 40px;
+  padding: 10px 5px;
   font-family: Courier, monospace; font-weight: normal
+}
+.spec p{
+  margin: 0 ;
 }
 a.module {
 	text-decoration:none
