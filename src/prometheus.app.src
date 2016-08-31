@@ -1,6 +1,6 @@
 {application, prometheus,
  [{description, "Prometheus.io client in Erlang"},
-  {vsn, "2.0.0"},
+  {vsn, "2.2.0"},
   {registered, []},
   {mod, { prometheus, []}},
   {applications,
@@ -14,5 +14,9 @@
   {maintainers, ["Ilya Khaprov"]},
   {licenses, ["MIT"]},
   {links, [{"Github", "https://github.com/deadtrickster/prometheus.erl"},
-           {"Elixir Plugs", "https://hex.pm/packages/prometheus_plugs"}]}
+           {"Prometheus.ex", "https://hex.pm/packages/prometheus_ex"},
+           {"Ecto Instrumenter", "https://hex.pm/packages/prometheus_ecto"},
+           {"Phoenix Instrumenter", "https://hex.pm/packages/prometheus_phoenix"},
+           {"Plugs Instrumenter/Exporter", "https://hex.pm/packages/prometheus_plugs"},
+           {"Process info Collector", "https://hex.pm/packages/prometheus_process_collector"}]}
  ]}.

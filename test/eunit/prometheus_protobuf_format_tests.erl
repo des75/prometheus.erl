@@ -2,16 +2,10 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
-escape_metric_help_test() ->
-  ?assertEqual("qwe\\\\qwe\\nqwe", prometheus_text_format:escape_metric_help("qwe\\qwe\nqwe")).
-
-escape_label_value_test()->
-  ?assertEqual("qwe\\\\qwe\\nq\\\"we\\\"qwe", prometheus_text_format:escape_label_value("qwe\\qwe\nq\"we\"qwe")).
-
 prometheus_format_test_() ->
   {foreach,
-   fun start/0,
-   fun stop/1,
+   fun prometheus_eunit_common:start/0,
+   fun prometheus_eunit_common:stop/1,
    [fun test_gauge/1,
     fun test_counter/1,
     fun test_dcounter/1,
@@ -20,16 +14,10 @@ prometheus_format_test_() ->
     fun test_histogram/1,
     fun test_dhistogram/1]}.
 
-start() ->
-  prometheus:start(),
-  Collectors = prometheus_registry:collectors(default),
-  prometheus_registry:clear(default),
-  Collectors.
-
-stop(DefaultCollectors) ->
-  prometheus_registry:clear(default),
-  [prometheus_registry:register_collector(default, Collector) || Collector <- DefaultCollectors],
-  ok.
+content_type_test() ->
+  ?assertEqual(<<"application/vnd.google.protobuf; "
+                 "proto=io.prometheus.client.MetricFamily; "
+                 "encoding=delimited">>, prometheus_protobuf_format:content_type()).
 
 test_gauge(_) ->
   prometheus_gauge:new([{name, pool_size}, {help, "MongoDB Connections pool size"}]),

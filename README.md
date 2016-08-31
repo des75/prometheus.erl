@@ -1,6 +1,6 @@
 # Prometheus.erl [![Hex.pm](https://img.shields.io/hexpm/v/prometheus.svg?maxAge=2592000?style=plastic)](https://hex.pm/packages/prometheus) [![Build Status](https://travis-ci.org/deadtrickster/prometheus.erl.svg?branch=master)](https://travis-ci.org/deadtrickster/prometheus.erl)
 
-[Prometheus](https://prometheus.io) monitoring system and time series database client in Erlang.
+[Prometheus.io](https://prometheus.io) monitoring system and time series database client in Erlang.
 
 ![RabbitMQ Dashboard](https://raw.githubusercontent.com/deadtrickster/prometheus_rabbitmq_exporter/master/priv/dashboards/RabbitMQErlangVM.png)
 
@@ -17,10 +17,13 @@
 
 You can write custom collector/exporter for any library/app you'd like. For example here is [Queue info collector](https://github.com/deadtrickster/prometheus_rabbitmq_exporter/blob/master/src/collectors/prometheus_rabbitmq_queues_collector.erl) from [RabbitMQ Exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter).
 
-### Integrations / Collectors
+### Integrations / Collectors / Instrumenters
+ - [Ecto collector](https://github.com/deadtrickster/prometheus-ecto)
+ - [Elixir client](https://github.com/deadtrickster/prometheus.ex)
  - [Elixir plugs](https://github.com/deadtrickster/prometheus-plugs)
  - [Elli middleware](https://github.com/elli-lib/elli_prometheus)
  - [Fuse plugin](https://github.com/jlouis/fuse#fuse_stats_prometheus)
+ - [Phoenix instrumenter](https://github.com/deadtrickster/prometheus-phoenix)
  - [Process Info Collector](https://github.com/deadtrickster/prometheus_process_collector.erl)
  - [RabbitMQ Exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
 
@@ -127,6 +130,25 @@ Prometheus.erl supports standard Erlang app configuration.
   - `default_collectors` - List of custom collectors modules to be registered automatically. If undefined list of all modules implementing `prometheus_collector` behaviour will be used.
   - `default_metrics` - List of metrics to be registered during app startup. Metric format: `{Registry, Metric, Spec}` where `Registry` is registry name, `Metric` is metric type (prometheus_counter, prometheus_gauge ... etc), `Spec` is a list to be passed to `Metric:register/2`.
 
+### Collectors & Exporters Conventions
+
+#### Configuration
+
+All 3d-party libraries should be configured via `prometheus` app env.
+
+Exproters are responsible for maintianing scrape endpoint. Exporters usually tightly coupled with web server and are singletons. They should understand these keys:
+ - `path` - url for scraping;
+ - `format` - scrape format as module name i.e. `prometheus_text_format` or `prometheus_protobuf_format`.
+Exporter-specific options should be under `<exporter_name>_exporter` for erlang or `<Exporter_name>Exporter` for Elixir i.e. `PlugsExporter` or `elli_exporter`
+
+Collectors collect integration specific metrics i.e. ecto timings, process informations and so on.
+Their configuration should be under `<collector_name>_collector`for erlang or `<Collector_name>Collector` for Elixir i.e. `process_collector`, `EctoCollector` and so on.
+
+#### Naming
+
+For Erlang: `prometheus_<name>_collector`/`prometheus_<name>_exporter`.
+
+For Elixir: `Prometheus.Collectors.<name>`/`Prometheus.Exporters.<name>`.
 
 ### TODO
 

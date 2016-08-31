@@ -36,6 +36,7 @@ init([]) ->
   create_tables(),
   register_collectors(),
   register_metrics(),
+  setup_instrumenters(),
   {ok, {{one_for_one, 5, 1}, [{prometheus_counter,
                                {prometheus_counter, start_link, []},
                                permanent,
@@ -71,21 +72,16 @@ create_tables() ->
   ok.
 
 register_collectors() ->
-  [prometheus_collector:register(Collector) ||
-    Collector <- enabled_collectors()].
+  Collectors = prometheus_collector:enabled_collectors(),
+  prometheus_registry:register_collectors(default, Collectors).
 
 register_metrics() ->
   [Metric:declare(Spec, Registry) ||
     {Registry, Metric, Spec} <- default_metrics()].
 
-enabled_collectors() ->
-  case application:get_env(prometheus, default_collectors) of
-    undefined -> all_known_collectors();
-    Collectors -> Collectors
-  end.
-
-all_known_collectors() ->
-  prometheus_misc:behaviour_modules(prometheus_collector).
+setup_instrumenters() ->
+  [prometheus_instrumenter:setup(Instrumenter) ||
+    Instrumenter <- prometheus_instrumenter:enabled_instrumenters()].
 
 default_metrics() ->
   application:get_env(prometheus, default_metrics, []).
