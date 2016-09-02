@@ -1,0 +1,77 @@
+@import "normalize";
+@import "https://fonts.googleapis.com/css?family=Droid+Sans|Droid+Sans+Mono|Droid+Serif";
+
+body{
+  font-family: "Droid Sans Serif", sans-serif;
+  padding: 0 2em;
+}
+
+
+div.navbar {
+  padding: 0.2em;
+}
+h1{
+  text-align: center;
+}
+h1,h2,h3 {
+  margin: 1em 0;
+}
+h2{
+  margin: 2em 0 1em;
+  padding-top: 2em;
+  border-top: 1px solid #999;
+}
+h2.indextitle {
+  margin: 1em 0;
+  padding: 0;
+  border: none;
+}
+h3.function,h3.typedecl {
+  font-family: "Droid Sans Mono", monospace; 
+  font-weight: bold;
+  font-size: 1em;
+  margin-top: 2em;
+}
+div.spec {
+  background-color:#eeeeff;
+  margin: 0 0 0 40px;
+  padding: 10px 5px;
+  font-family: "Droid Sans Mono", monospace; 
+  font-weight: normal
+}
+.spec p{
+  margin: 0 ;
+}
+a.module {
+  text-decoration:none
+}
+a.module:hover {
+  background-color: #eeeeee;
+}
+ul.definitions {
+  list-style-type: none;
+}
+ul.index {
+
+}
+ul.index li{
+  font-family: "Droid Sans Mono", monospace; 
+  font-weight: bold
+}
+
+body > p{
+  padding-left: 40px;
+}
+
+/*
+ * Minor style tweaks
+ */
+ul {
+  list-style-type: square;
+}
+table {
+  border-collapse: collapse;
+}
+td {
+  padding: 10px;
+}
